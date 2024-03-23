@@ -1,21 +1,28 @@
-function sayHello(){
-    console.log("Hello");
+function sayHello(name, lastName) {
+    console.log("Hello "+ name + " "+ lastName); 
 }
+
+function sum(num1,num2){
+    const result= num1 + num2;
+    return result;
+}
+
+/**
+ * ! = not
+ * && = and 
+ * || = or
+ */
 
 function init() {
   console.log("hello world!");
-  sayHello();
+  const x = "Adrian";
+  sayHello(x, "Aguiñaga");  
+  const result = sum(21,21);
+  console.log(result);
     //retrive data
     //hook events
-
 }
 
-for (let x=0; x<10; x++) {
-    x+1;
-}
-for (let x=0; x<10; x++) {
-    x+1;
-}
 
 
 window.onload = init;
