@@ -9,16 +9,62 @@ function saveTask()
     const status = $("#inputStatus").val();
     const budget = $("#inputBudget").val();    
     //build an object
+    
     let taskToSave = new Task(title,desc,color,date,status,budget);
     console.log(taskToSave);
 
     //save to the sever
+    $.ajax({
+        type: "POST",
+        url: "http://fsdiapi.azurewebsites.net/api/tasks/",
+        data: JSON.stringify(taskToSave),
+        contentType: "application/json",
+        success: function(res){
+            console.log(res);
+        },
+        error: function(error) {
+            console.log(error);
+            alert("Unexpected error");
+        }
+    })
 
     //display the task
     displayTask(taskToSave);
-
   
 }
+function loadTask()//this to read
+{
+    //get http://fsdiapi.azurewebsites.net/api/tasks
+    //console.log the response
+    $.ajax({
+        type: "GET",
+        url: "http://fsdiapi.azurewebsites.net/api/tasks",
+       
+
+        success: function(res){
+            let data = JSON.parse(res);
+            
+            for(let i=0;i<data.length;i++)
+            {
+                let task = data[i];  
+                if(task.title=="adrian")
+                {
+                  displayTask(task);
+                }
+                //minichallenge bring only the ones that have the
+                //title = adrian
+            }
+            console.log(res);
+            console.log(data);
+        },
+        error: function(error) {
+            console.log(error);
+            alert("Unexpected error");
+        }
+    })
+
+}
+
 function displayTask(task)
 {
     let syntax = `<div class="task"
@@ -35,7 +81,7 @@ function displayTask(task)
 
 function testRequest(){
     $.ajax({
-        type: "GET",//read
+        type: "delete",//read
         url:"http://fsdiapi.azurewebsites.net",
         //exceptions
         success: function(response){
@@ -54,6 +100,7 @@ function init() {
     //retrive data
     //hook events
     $("#btnSave").click(saveTask);//this is usign jQuery
+    loadTask();
     //document.getElementById("btnSave"); old fashion
 }
 
